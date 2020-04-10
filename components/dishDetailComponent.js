@@ -43,4 +43,6 @@ class Dishdetail extends Component {
         );
     }
 }
+
+
 export default Dishdetail;
