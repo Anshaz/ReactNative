@@ -2,10 +2,9 @@
   "ExpandedNodes": [
     "",
     "\\components",
-    "\\components\\__MACOSX\\images",
     "\\redux",
     "\\shared"
   ],
-  "SelectedNode": "\\redux\\ActionTypes.js",
+  "SelectedNode": "\\redux\\ActionCreators.js",
   "PreviewInSolutionExplorer": false
 }

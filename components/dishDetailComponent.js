@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Text, View, ScrollView, FlatList } from 'react-native';
-import { Card, Icon } from 'react-native-elements';
+import { Card, Icon, Rating } from 'react-native-elements';
 import { COMMENTS } from '../shared/comments';
 import { connect } from 'react-redux';
 import { baseUrl } from '../shared/baseUrl';
@@ -11,9 +11,11 @@ const mapStateToProps = state => {
     return {
         dishes: state.dishes,
         comments: state.comments,
-        favorites: state.favorites
+        favorites: state.favorites,
+        ratings: state.ratings
     }
 }
+
 
 const mapDispatchToProps = dispatch => ({
     postFavorite: (dishId) => dispatch(postFavorite(dishId))
@@ -31,6 +33,8 @@ function RenderDish(props) {
                 <Text style={{ margin: 10 }}>
                     {dish.description}
                 </Text>
+                <View style={{ flexDirection: "row", justifyContent: "center" }}>
+
                 <Icon
                     raised
                     reverse
@@ -39,7 +43,18 @@ function RenderDish(props) {
                     color='#f50'
                     onPress={() => props.favorite ? console.log('Already favorite') :
                         props.onPress()} />
+                
+                <Icon
+                    raised
+                    reverse
+                    name={'pencil'}
+                    type='font-awesome'
+                    color='#512DA8'
+                    onPress={() => props.favorite ? console.log('Already favorite') :
+                        props.onPress()} />
+                     </View>                       
             </Card>
+
         );
     }
     else {
