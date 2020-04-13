@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { baseUrl } from '../shared/baseUrl';
 import { postFavorite, postComment } from '../redux/ActionCreators';
 import { favorites } from '../redux/favorites';
+import * as Animatable from 'react-native-animatable';
 
 
 const mapStateToProps = state => {
@@ -30,6 +31,8 @@ function RenderDish(props) {
     if (dish != null) {
         return (
             <ScrollView>
+            <Animatable.View animation="fadeInDown" duration={2000} delay={1000}>
+
             <Card
                 featuredTitle={dish.name}
                 image={{ uri: baseUrl + dish.image }}>
@@ -57,7 +60,8 @@ function RenderDish(props) {
                         />
                 </View>
 
-            </Card>
+                    </Card>
+                    </Animatable.View>
                 </ScrollView>
         );
     }
@@ -88,13 +92,16 @@ function RenderComments(props) {
     };
 
     return (
-        <Card title='Comments' >
-            <FlatList
-                data={comments}
-                renderItem={renderCommentItem}
-                keyExtractor={item => item.id.toString()}
-            />
-        </Card>
+        <Animatable.View animation="fadeInUp" duration={2000} delay={1000}>
+
+                <Card title='Comments' >
+                    <FlatList
+                        data={comments}
+                        renderItem={renderCommentItem}
+                        keyExtractor={item => item.id.toString()}
+                    />
+                    </Card>
+            </Animatable.View>
     );
 }
 
