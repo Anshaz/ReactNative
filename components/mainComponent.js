@@ -6,11 +6,11 @@ import { View, Platform, Image, StyleSheet, ScrollView, Text } from 'react-nativ
 import Home from './HomeComponent';
 import Contact from './ContactComponent';
 import About from './AboutComponent';
+import Favorites from './FavoriteComponent';
 import { createStackNavigator, createDrawerNavigator, DrawerItems, SafeAreaView } from 'react-navigation';
 import { Icon } from 'react-native-elements';
 import { fetchDishes, fetchComments, fetchPromos, fetchLeaders } from '../redux/ActionCreators';
 import { connect } from 'react-redux';
-
 
 const mapStateToProps = state => {
     return {
@@ -141,6 +141,24 @@ const ReservationNavigator = createStackNavigator({
             color='white'
             onPress={() => navigation.toggleDrawer()} />
     })
+})
+
+const FavoritesNavigator = createStackNavigator({
+    Favorites: { screen: Favorites }
+}, {
+    navigationOptions: ({ navigation }) => ({
+        headerStyle: {
+            backgroundColor: "#512DA8"
+        },
+        headerTitleStyle: {
+            color: "#fff",
+            flex: 4
+        },
+        headerTintColor: "#fff",
+        headerLeft: <Icon name="menu" size={24}
+            iconStyle={{ color: 'white' }}
+            onPress={() => navigation.navigate('DrawerToggle')} />
+    })
 });
 
 const CustomDrawerContentComponent = (props) => (
@@ -224,9 +242,25 @@ const MainNavigator = createDrawerNavigator({
                     color={tintColor} />
             )
         },
-    }
+    },
 
-,
+    Favorites:
+    {
+        screen: FavoritesNavigator,
+        navigationOptions: {
+            title: 'My Favorites ',
+            drawerLabel: 'My Favorites ',
+            drawerIcon: ({ tintColor, focused }) => (
+                <Icon
+                    name='heart'
+                    type='font-awesome'
+                    size={24}
+                    iconStyle={{ color: tintColor }}
+                />
+            ),
+        }
+    },
+
     Reservation:
     {
         screen: ReservationNavigator,
