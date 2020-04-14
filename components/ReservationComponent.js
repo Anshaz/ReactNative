@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { Text, View, ScrollView, StyleSheet, Picker, Switch, Button, Modal } from 'react-native';
 import { Card } from 'react-native-elements';
-import DatePicker from 'react-native-datepicker'
+import DatePicker from 'react-native-datepicker';
+import * as Animatable from 'react-native-animatable';
+
 
 class Reservation extends Component {
 
@@ -42,6 +44,7 @@ class Reservation extends Component {
     render() {
         return (
             <ScrollView>
+                <Animatable.View animation="zoomIn" duration={3000} delay={1000}>
                 <View style={styles.formRow}>
                     <Text style={styles.formLabel}>Number of Guests</Text>
                     <Picker
@@ -89,7 +92,8 @@ class Reservation extends Component {
                             // ... You can check the source to find the other keys. 
                         }}
                         onDateChange={(date) => { this.setState({ date: date }) }}
-                    />
+                        />
+                       
                 </View>
                 <View style={styles.formRow}>
                     <Button
@@ -97,7 +101,8 @@ class Reservation extends Component {
                         title="Reserve"
                         color="#512DA8"
                         accessibilityLabel="Learn more about this purple button"
-                    />
+                        />
+                       
                 </View>
                 <Modal
                     animationType={'slide'}
@@ -119,7 +124,7 @@ class Reservation extends Component {
                         />
                     </View>
                     </Modal>
-
+                    </Animatable.View>
             </ScrollView>
         );
     }
