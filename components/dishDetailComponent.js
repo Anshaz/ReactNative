@@ -9,6 +9,7 @@ import { favorites } from '../redux/favorites';
 import * as Animatable from 'react-native-animatable';
 
 
+
 const mapStateToProps = state => {
     return {
         dishes: state.dishes,
@@ -30,6 +31,7 @@ function RenderDish(props) {
     var ViewRef;
     const handleViewRef = ref => ViewRef = ref;
 
+
     const recognizeDrag = ({ moveX, moveY, dx, dy }) => {
         if (dx < -200)
             return true;
@@ -37,6 +39,12 @@ function RenderDish(props) {
             return false;
     }
 
+    const recognizeComment = ({ moveX, moveY, dx, dy }) => {
+        if (dx > 200)
+            return true;
+        else
+            return false;
+    }
     const panResponder = PanResponder.create({
         onStartShouldSetPanResponder: (e, gestureState) => {
             return true;
@@ -45,7 +53,6 @@ function RenderDish(props) {
         onPanResponderGrant: () => ViewRef.rubberBand(1000)
             .then(endState => console.log(endState.finished ? 'finished' : 'cancelled')
     ),
-        
 
         onPanResponderEnd: (e, gestureState) => {
             console.log("pan responder end", gestureState);
@@ -59,6 +66,10 @@ function RenderDish(props) {
                     ],
                     { cancelable: false }
                 );
+
+            if (recognizeComment(gestureState)) {
+              props.onPressAddComment();
+            }
 
             return true;
         }
@@ -107,6 +118,9 @@ function RenderDish(props) {
         return (<View></View>);
     }
 }
+
+
+
 /*rendering the comment items with the help of functional component*/
 function RenderComments(props) {
 
@@ -194,6 +208,7 @@ class Dishdetail extends Component {
             });
     }
 
+
  
 
     render() {
@@ -260,7 +275,10 @@ class Dishdetail extends Component {
 
             </ScrollView>
         );
+
     }
+
+
 }
 const styles = StyleSheet.create({
     icons: {
