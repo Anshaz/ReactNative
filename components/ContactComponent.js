@@ -4,6 +4,7 @@ import { Text, View, ScrollView } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 
 
+
 class Contact extends Component {
 
     constructor(props) {
