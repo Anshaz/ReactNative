@@ -6,7 +6,11 @@ import * as SecureStore from 'expo-secure-store';
 import * as Permissions from 'expo-permissions';
 import * as ImagePicker from 'expo-image-picker';
 import { baseUrl } from '../shared/baseUrl';
-import * as ImageManipulator from "expo-image-manipulator";
+import * as ImageManipulator from 'expo-image-manipulator';
+import { Camera } from 'expo-camera';
+import { Asset } from 'expo-asset';
+import {CAMERA_ROLL}  from 'expo-media-library';
+
 
 
 class LoginTab extends Component {
@@ -153,8 +157,29 @@ class RegisterTab extends Component {
 
     }
 
+    getImageFromGallery = async () => {
+        const galleryRollPermission = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+
+        if (galleryRollPermission.status === 'granted') {
+
+            let selectedImage = await ImagePicker.launchImageLibraryAsync({
+                mediaTypes: ImagePicker.MediaTypeOptions.All,
+                allowsEditing: true,
+                aspect: [4, 3],
+                quality: 1,
+               
+            });
+            if (!selectedImage.cancelled) {
+                console.log(selectedImage);
+                this.processImage(selectedImage.uri);
+            }
+
+        }
+        return Permission;
+    }
+
     processImage = async (imageUri) => {
-        let processedImage = await ImageManipulator.manipulate(
+        let processedImage = await ImageManipulator.manipulateAsync(
             imageUri,
             [
                 { resize: { width: 400 } }
@@ -165,8 +190,6 @@ class RegisterTab extends Component {
         this.setState({ imageUrl: processedImage.uri });
 
     }
-
-
 
     static navigationOptions = {
         title: 'Register',
@@ -192,15 +215,22 @@ class RegisterTab extends Component {
             <ScrollView>
                 <View style={styles.container}>
                     <View style={styles.imageContainer}>
+                        <View style={{flexDirection: 'row', flex: 1, justifyContent: "space-around"}}>
                         <Image
                             source={{ uri: this.state.imageUrl }}
                             loadingIndicatorSource={require('./images/logo.png')}
                             style={styles.image}
                         />
                         <Button
-                            title="Photo "
+                            title="Camera  "
                             onPress={this.getImageFromCamera}
                         />
+
+                        <Button
+                            title="Gallery "
+                                onPress={this.getImageFromGallery}
+                        />
+                        </View>
                     </View>
                     <Input
                         placeholder="Username"

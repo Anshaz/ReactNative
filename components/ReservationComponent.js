@@ -5,6 +5,7 @@ import DatePicker from 'react-native-datepicker';
 import * as Animatable from 'react-native-animatable';
 import { Notifications } from 'expo';
 import * as Permissions from 'expo-permissions';
+import * as Calendar from 'expo-calendar';
 
 class Reservation extends Component {
 
@@ -34,6 +35,8 @@ class Reservation extends Component {
                 {
                     text: 'OK', onPress: () => {
                         this.presentLocalNotification(this.state.date);
+                        this.addReservationToCalendar(this.state.date);
+
                             this.resetForm()} },
             ],
             { cancelable: false }
@@ -76,6 +79,36 @@ class Reservation extends Component {
         });
     }
 
+    obtainCalendarPermission = async () => {
+        const calenderPermission = await Calendar.requestCalendarPermissionsAsync();
+
+        if (calenderPermission.status === 'granted') {
+            const calendars = await Calendar.getCalendarsAsync();
+            console.log('Accessing the calendar');
+            console.log({ calendars });
+        }
+
+    }
+
+    addReservationToCalendar =async(date) => {
+        await this.obtainCalendarPermission();
+        let result = await Calendar.getCalendarsAsync();
+        console.log(result, 'result')
+        console.log(Calendar.getCalendarsAsync());
+
+        let dateMs = Date.parse(date);
+        let startDate = new Date(dateMs);
+        let endDate = new Date(dateMs + 2 * 60 * 60 * 1000);
+
+        await Calendar.createEventAsync(Calendar[0].id, {
+            title: 'Con Fusion Table Reservation',
+            startDate: startDate,
+            endDate: endDate,
+            allowsModifications: true,
+            timeZone: 'Asia/Hong_Kong',
+            location: '121, Clear Water Bay Road, Clear Water Bay, Kowloon, Hong Kong'
+        });
+    }
 
 
     render() {

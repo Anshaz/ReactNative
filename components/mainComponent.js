@@ -165,22 +165,31 @@ const FavoritesNavigator = createStackNavigator({
 });
 
 const LoginNavigator = createStackNavigator({
-    Login: Login
-}, {
-    navigationOptions: ({ navigation }) => ({
-        headerStyle: {
-            backgroundColor: "#512DA8"
-        },
-        headerTitleStyle: {
-            color: "#fff"
-        },
-        title: 'Login ',
-        headerTintColor: "#fff",
-        headerLeft: <Icon name="menu" size={24}
-            iconStyle={{ color: 'white' }}
-            onPress={() => navigation.toggleDrawer()} />
-    })
-});
+    Login: { screen: Login }
+
+},
+    {
+        navigationOptions: ({ navigation }) => ({
+            headerStyle: {
+                backgroundColor: "#512DA8"
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+                color: "#fff",
+                flex: 2
+
+
+            },
+            headerLeft: <Icon name='menu' size={24}
+                color='white'
+                onPress={() => navigation.toggleDrawer()} />
+        }
+
+
+        )
+
+
+    });
 
 
 const CustomDrawerContentComponent = (props) => (
